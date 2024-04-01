@@ -1,3 +1,5 @@
+import { startConfetti, stopConfetti, removeConfetti } from "./confetti.js";
+
 const playerScoreEl = document.querySelector("#playerScore");
 const playerChoiceEl = document.querySelector("#playerChoice");
 const computerScoreEl = document.querySelector("#computerScore");
@@ -53,6 +55,7 @@ function resetAll() {
 
   resetSelected();
 }
+window.resetAll = resetAll;
 
 // Add 'selected' class to computerChoice
 function displayComputerChoice() {
@@ -105,8 +108,8 @@ function updateScore(playerChoice) {
     resultText.textContent = "It's a tie.";
   } else {
     const choice = choices[playerChoice];
-    console.log(choice.defeats);
     if (choice.defeats.includes(computerChoice)) {
+      startConfetti();
       resultText.textContent = "You won.";
       playerScore++;
       playerScoreEl.textContent = playerScore;
@@ -120,6 +123,8 @@ function updateScore(playerChoice) {
 
 // a function that executes a bunch of other functions when the player has selected a choice [triggered from the select() function]
 function checkResult(playerChoice) {
+  stopConfetti();
+  removeConfetti();
   resetSelected();
   computerRandomChoice();
   displayComputerChoice();
@@ -155,6 +160,7 @@ function select(playerChoice) {
       break;
   }
 }
+window.select = select;
 
 // On Load
 resetAll();
